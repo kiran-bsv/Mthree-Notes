@@ -1,3 +1,53 @@
+# **Table of Contents**  
+
+1️⃣ **[Introduction](#introduction)**  
+   - Overview of Kubernetes Configuration  
+   - Components Covered  
+
+2️⃣ **[Namespace: Organizing the Application](#namespace-organizing-the-application)**  
+   - Definition & Purpose  
+   - Namespace YAML Configuration  
+
+3️⃣ **[ConfigMap: Storing Configuration](#configmap-storing-configuration)**  
+   - Definition & Purpose  
+   - ConfigMap YAML Configuration  
+
+4️⃣ **[Deployment: Managing Pods](#deployment-managing-pods)**  
+   - Definition & Purpose  
+   - [Deployment YAML Breakdown](#deployment-yaml-breakdown)  
+     - [Pod Template](#pod-template)  
+     - [Container Configuration](#container-configuration)  
+     - [Port & Environment Variables](#port-environment-variables)  
+     - [Resource Allocation](#resource-allocation)  
+     - [Health Checks (Liveness & Readiness Probes)](#health-checks-liveness-readiness-probes)  
+
+5️⃣ **[Service: Exposing the Application](#service-exposing-the-application)**  
+   - Definition & Purpose  
+   - [Service Types (ClusterIP, NodePort, LoadBalancer)](#service-types-clusterip-nodeport-loadbalancer)  
+   - [Port Mapping & YAML Configuration](#port-mapping-yaml-configuration)  
+
+6️⃣ **[Summary of Components](#summary-of-components)**  
+   - Table Comparing Different Components  
+
+7️⃣ **[How to Deploy the Application](#how-to-deploy-the-application)**  
+   - Applying Kubernetes Configuration  
+   - Checking Deployed Resources  
+   - Viewing Pod Logs  
+   - Accessing the Flask Application  
+
+8️⃣ **[Conclusion](#conclusion)**  
+   - Scalability & Fault Tolerance in Kubernetes  
+   - Key Takeaways  
+
+9️⃣ **[Difference Between Namespace, Name, and Labels](#difference-between-namespace-name-and-labels)**  
+   - Namespace: Logical Resource Grouping  
+   - Name: Unique Identifier for Resources  
+   - Labels: Tagging & Filtering Resources  
+
+🔟 **[Comparison Table: Namespace vs. Name vs. Labels](#comparison-table-namespace-vs-name-vs-labels)**  
+
+---
+
 The Kubernetes configuration defines a **namespace, ConfigMap, Deployment, and Service** for deploying a Flask-based application inside a Kubernetes cluster. Let's break it down step by step.
 
 ---
