@@ -30,41 +30,18 @@
   - [**4. Limitations of Shallow Copy and Deep Copy in Python**](#4-limitations-of-shallow-copy-and-deep-copy-in-python)
     - [**Limitations of Shallow Copy**](#limitations-of-shallow-copy)
     - [**Limitations of Deep Copy**](#limitations-of-deep-copy)
-  - [**Conclusion**](#conclusion-1)
-  - [**File Operations in Python and C++**](#file-operations-in-python-and-c)
+- [**File Operations in Python and C++**](#file-operations-in-python-and-c)
   - [**1. Creating a File**](#1-creating-a-file)
-    - [**Python**](#python-2)
-    - [**C++**](#c-2)
   - [**2. Writing to a File**](#2-writing-to-a-file)
-    - [**Python**](#python-3)
-    - [**C++**](#c-3)
   - [**3. Reading from a File**](#3-reading-from-a-file)
-    - [**Python**](#python-4)
-    - [**C++**](#c-4)
   - [**4. Appending to a File**](#4-appending-to-a-file)
-    - [**Python**](#python-5)
-    - [**C++**](#c-5)
   - [**5. Deleting a File**](#5-deleting-a-file)
-    - [**Python**](#python-6)
-    - [**C++**](#c-6)
   - [**6. Checking If a File Exists**](#6-checking-if-a-file-exists)
-    - [**Python**](#python-7)
-    - [**C++**](#c-7)
   - [**7. Getting the Current Working Directory**](#7-getting-the-current-working-directory)
-    - [**Python**](#python-8)
-    - [**C++**](#c-8)
   - [**8. Listing All Files in a Directory**](#8-listing-all-files-in-a-directory)
-    - [**Python**](#python-9)
-    - [**C++**](#c-9)
   - [**9. Getting the Size of a File**](#9-getting-the-size-of-a-file)
-    - [**Python**](#python-10)
-    - [**C++**](#c-10)
   - [**10. Getting the Last Modified Time of a File**](#10-getting-the-last-modified-time-of-a-file)
-    - [**Python**](#python-11)
-    - [**C++**](#c-11)
   - [**11. Getting File Name, Extension, and Path**](#11-getting-file-name-extension-and-path)
-    - [**Python**](#python-12)
-    - [**C++**](#c-12)
 
 # OOPS.py
 
@@ -413,7 +390,8 @@ public:
 
 ---
 
-## **Conclusion**
+**Conclusion**
+
 | Aspect | Python Shallow Copy | Python Deep Copy | C++ Shallow Copy | C++ Deep Copy |
 |--------|----------------|----------------|----------------|----------------|
 | **Copies Object** | ✅ | ✅ | ✅ | ✅ |
@@ -428,7 +406,7 @@ public:
 
 ---
 
-## **File Operations in Python and C++**
+# **File Operations in Python and C++**
 
 File operations allow us to create, read, write, append, and delete files. Below, we will go through various file operations in **Python** and **C++**, explaining each step with examples.
 
@@ -437,7 +415,7 @@ File operations allow us to create, read, write, append, and delete files. Below
 ## **1. Creating a File**
 We can create a file using **Python's `open()` function** or **C++'s `ofstream` class**.
 
-### **Python**
+  
 ```python
 filePath = "test.txt"
 
@@ -448,7 +426,7 @@ def create_file():
 create_file()
 ```
 
-### **C++**
+  
 ```cpp
 #include <iostream>
 #include <fstream>
@@ -470,7 +448,7 @@ int main() {
 ## **2. Writing to a File**
 We can write data to a file using **"w" mode** (overwrite) in Python and **ofstream** in C++.
 
-### **Python**
+  
 ```python
 def write_to_file():
     with open(filePath, "w") as file:  # Overwrite if the file exists
@@ -479,7 +457,7 @@ def write_to_file():
 write_to_file()
 ```
 
-### **C++**
+  
 ```cpp
 void write_to_file() {
     std::ofstream file("test.txt");  // Opens file and overwrites existing content
@@ -493,7 +471,7 @@ void write_to_file() {
 ## **3. Reading from a File**
 To read a file, we use **"r" mode** in Python and **ifstream** in C++.
 
-### **Python**
+  
 ```python
 def read_from_file():
     with open(filePath, "r") as file:  # Open file in read mode
@@ -502,7 +480,7 @@ def read_from_file():
 read_from_file()
 ```
 
-### **C++**
+  
 ```cpp
 void read_from_file() {
     std::ifstream file("test.txt"); // Open file in read mode
@@ -521,7 +499,7 @@ void read_from_file() {
 ## **4. Appending to a File**
 Appending allows us to add content to the existing file without overwriting it.
 
-### **Python**
+  
 ```python
 def append_to_file():
     with open(filePath, "a") as file:  # "a" mode appends content
@@ -530,7 +508,7 @@ def append_to_file():
 append_to_file()
 ```
 
-### **C++**
+  
 ```cpp
 void append_to_file() {
     std::ofstream file("test.txt", std::ios::app); // Open file in append mode
@@ -544,7 +522,7 @@ void append_to_file() {
 ## **5. Deleting a File**
 To delete a file, we use **`os.remove()`** in Python and **`remove()`** in C++.
 
-### **Python**
+  
 ```python
 import os
 
@@ -558,7 +536,7 @@ def delete_file():
 delete_file()
 ```
 
-### **C++**
+  
 ```cpp
 #include <cstdio>  // Needed for remove() function
 
@@ -576,7 +554,7 @@ void delete_file() {
 ## **6. Checking If a File Exists**
 Before performing operations, it's good practice to check if a file exists.
 
-### **Python**
+  
 ```python
 def check_if_file_exists():
     if os.path.exists(filePath):
@@ -587,7 +565,7 @@ def check_if_file_exists():
 check_if_file_exists()
 ```
 
-### **C++**
+  
 ```cpp
 #include <filesystem>  // Required for checking file existence
 
@@ -605,7 +583,7 @@ void check_if_file_exists() {
 ## **7. Getting the Current Working Directory**
 We can retrieve the current directory where our script is running.
 
-### **Python**
+  
 ```python
 def get_current_working_directory():
     print(os.getcwd())
@@ -613,7 +591,7 @@ def get_current_working_directory():
 get_current_working_directory()
 ```
 
-### **C++**
+  
 ```cpp
 #include <iostream>
 #include <filesystem>
@@ -628,7 +606,7 @@ void get_current_working_directory() {
 ## **8. Listing All Files in a Directory**
 Lists all files in the current directory.
 
-### **Python**
+  
 ```python
 def list_files_in_directory():
     print(os.listdir())  # Prints list of files and folders
@@ -636,7 +614,7 @@ def list_files_in_directory():
 list_files_in_directory()
 ```
 
-### **C++**
+  
 ```cpp
 #include <filesystem>
 
@@ -652,7 +630,7 @@ void list_files_in_directory() {
 ## **9. Getting the Size of a File**
 We can get a file’s size using `os.path.getsize()` in Python and `std::filesystem::file_size()` in C++.
 
-### **Python**
+  
 ```python
 def get_size_of_file():
     print(os.path.getsize(filePath), "bytes")
@@ -660,7 +638,7 @@ def get_size_of_file():
 get_size_of_file()
 ```
 
-### **C++**
+  
 ```cpp
 void get_size_of_file() {
     std::cout << "Size: " << std::filesystem::file_size("test.txt") << " bytes\n";
@@ -672,7 +650,7 @@ void get_size_of_file() {
 ## **10. Getting the Last Modified Time of a File**
 Retrieves the last modified timestamp.
 
-### **Python**
+  
 ```python
 def get_last_modified_time_of_file():
     print(os.path.getmtime(filePath))
@@ -680,7 +658,7 @@ def get_last_modified_time_of_file():
 get_last_modified_time_of_file()
 ```
 
-### **C++**
+  
 ```cpp
 #include <chrono>
 
@@ -695,7 +673,7 @@ void get_last_modified_time_of_file() {
 ## **11. Getting File Name, Extension, and Path**
 We can extract file details like name, extension, and directory.
 
-### **Python**
+  
 ```python
 def get_file_name():
     print(os.path.basename(filePath))  # File name
@@ -711,7 +689,7 @@ get_file_extension()
 get_file_directory()
 ```
 
-### **C++**
+  
 ```cpp
 void get_file_name() {
     std::cout << "File Name: " << std::filesystem::path("test.txt").filename() << std::endl;
