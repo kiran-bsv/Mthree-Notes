@@ -1,0 +1,38 @@
+{
+  "dashboard": {
+    "title": "Application Logs",
+    "uid": "app-logs",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Sample App Logs",
+        "type": "logs",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "expr": "{namespace=\"sample-app\", app=\"sample-logger\"}"
+          }
+        ],
+        "gridPos": {"h": 12, "w": 24, "x": 0, "y": 0},
+        "options": {
+          "showTime": true
+        }
+      },
+      {
+        "id": 2,
+        "title": "Error Logs",
+        "type": "logs",
+        "datasource": "Loki",
+        "targets": [
+          {
+            "expr": "{namespace=\"sample-app\"} |= \"ERROR\""
+          }
+        ],
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 12}
+      }
+    ],
+    "refresh": "5s"
+  },
+  "folderUid": null,
+  "overwrite": true
+}

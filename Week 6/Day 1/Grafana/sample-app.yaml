@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-logger
+  namespace: sample-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-logger
+  template:
+    metadata:
+      labels:
+        app: sample-logger
+    spec:
+      containers:
+      - name: logger
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args:
+        - >
+          while true; do
+            echo "[INFO] Log entry at $(date)";
+            sleep 3;
+            echo "[DEBUG] Processing data...";
+            sleep 2;
+            if [ $((RANDOM % 10)) -eq 0 ]; then
+              echo "[ERROR] Sample error occurred!";
+            fi;
+            sleep 1;
+          done
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "50m"
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
