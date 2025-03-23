@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-sre-app
+  namespace: react-sre-app
+spec:
+  template:
+    spec:
+      containers:
+      - name: react-sre-app
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "1Gi"
+          requests:
+            cpu: "500m"
+            memory: "512Mi"

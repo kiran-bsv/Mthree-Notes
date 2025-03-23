@@ -1,0 +1,5 @@
+setup.py
+wzegh.egg-info/PKG-INFO
+wzegh.egg-info/SOURCES.txt
+wzegh.egg-info/dependency_links.txt
+wzegh.egg-info/top_level.txt

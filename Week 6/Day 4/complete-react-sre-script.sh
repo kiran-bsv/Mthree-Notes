@@ -22,7 +22,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Define project directories
-PROJECT_ROOT="$HOME/react-sre-project"
+PROJECT_ROOT="$HOME/Desktop/Mthree-Notes/react-sre-project"
 REACT_APP_DIR="$PROJECT_ROOT/sre-react-app"
 K8S_DIR="$PROJECT_ROOT/kubernetes"
 MONITORING_DIR="$PROJECT_ROOT/monitoring"
@@ -148,23 +148,23 @@ install_dependencies() {
   fi
 
   # Install Python 3.9+ if not available
-  if ! command_exists python3.9; then
-    log "INFO" "Installing Python 3.9+..."
-    sudo add-apt-repository -y ppa:deadsnakes/ppa
-    sudo apt update
-    sudo apt install -y python3.9 python3.9-venv python3.9-dev
-  else
-    log "INFO" "Python 3.9+ is already installed"
-  fi
+  # if ! command_exists z3.12; then
+  #   log "INFO" "Installing Python 3.12+..."
+  #   sudo add-apt-repository -y ppa:deadsnakes/ppa
+  #   sudo apt update
+  #   sudo apt install -y python3.9 python3.9-venv python3.9-dev
+  # else
+  #   log "INFO" "Python 3.9+ is already installed"
+  # fi
   
-  # Set Python 3.9 as default python3
-  sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
+  # # Set Python 3.9 as default python3
+  # sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.9 1
   
   # Install pip for Python 3.9
-  if ! command_exists pip3; then
-    log "INFO" "Installing pip for Python 3.9..."
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.9
-  fi
+  # if ! command_exists pip3; then
+  #   log "INFO" "Installing pip for Python 3.9..."
+  #   curl -sS https://bootstrap.pypa.io/get-pip.py | python3.9
+  # fi
 
   # Install Node.js using nvm if not already installed
   if ! command_exists node || ! command_exists npm; then
@@ -231,7 +231,7 @@ setup_python_environment() {
   
   # Create and activate virtual environment
   cd "$PROJECT_ROOT"
-  python3.9 -m venv venv
+  python3 -m venv venv
   source venv/bin/activate
   
   # Upgrade pip
@@ -635,7 +635,7 @@ EOL
   # Update App.js with SRE components
   cat > "$REACT_APP_DIR/src/App.js" << 'EOL'
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import HealthCheck from './components/HealthCheck';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -708,17 +708,11 @@ function App() {
             </ul>
           </nav>
 
-          <Switch>
-            <Route path="/dashboard">
-              <Dashboard />
-            </Route>
-            <Route path="/error-test">
-              <ErrorTest />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-          </Switch>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard/>} />
+            <Route path="/error-test" element={<ErrorTest/>} />
+            <Route path="/" element={<Home/>} />
+          </Routes>
         </div>
       </Router>
     </ErrorBoundary>
@@ -2122,7 +2116,7 @@ def log(level, message):
     reset = "\033[0m"
     print(f"{color}[{level}]{reset} {timestamp} - {message}")
 
-def run_command(command, timeout=60, retry=3):
+def run_command(command, timeout=60, retry=3, cwd= None):
     """Run a shell command with timeout and retry logic."""
     for attempt in range(retry):
         try:
@@ -2132,7 +2126,8 @@ def run_command(command, timeout=60, retry=3):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                timeout=timeout
+                timeout=timeout,
+                cwd=cwd
             )
             
             if result.returncode == 0:
@@ -2279,7 +2274,7 @@ def log(level, message):
     reset = "\033[0m"
     print(f"{color}[{level}]{reset} {timestamp} - {message}")
 
-def run_command(command, timeout=60, retry=1, shell=False):
+def run_command(command, timeout=60, retry=1, shell=False, cwd = None):
     """Run a shell command with timeout and retry logic."""
     for attempt in range(retry):
         try:
@@ -2292,7 +2287,8 @@ def run_command(command, timeout=60, retry=1, shell=False):
                     stderr=subprocess.PIPE,
                     text=True,
                     timeout=timeout,
-                    shell=True
+                    shell=True,
+                    cwd=cwd
                 )
             else:
                 result = subprocess.run(
@@ -2300,7 +2296,8 @@ def run_command(command, timeout=60, retry=1, shell=False):
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     text=True,
-                    timeout=timeout
+                    timeout=timeout,
+                    cwd = cwd
                 )
             
             if result.returncode == 0:
@@ -2391,26 +2388,43 @@ def create_namespaces():
     """Create necessary Kubernetes namespaces."""
     log("INFO", "Creating Kubernetes namespaces...")
     
-    namespaces = ["react-sre-app", "monitoring"]
-    for namespace in namespaces:
-        result = run_command(
-            [KUBECTL_CMD, "create", "namespace", namespace, "--dry-run=client", "-o", "yaml"],
-            timeout=10
-        )
-        if result is None:
-            log("ERROR", f"Failed to generate namespace YAML for {namespace}")
-            return False
+    # namespaces = ["react-sre-app", "monitoring"]
+    # for namespace in namespaces:
+    #     result = run_command(
+    #         [KUBECTL_CMD, "create", "namespace", namespace, "--dry-run=client", "-o", "yaml"],
+    #         timeout=10
+    #     )
+    #     if result is None:
+    #         log("ERROR", f"Failed to generate namespace YAML for {namespace}")
+    #         return False
         
-        # Apply with kubectl
-        apply_result = run_command(
-            f"{KUBECTL_CMD} apply -f -",
-            timeout=10,
-            shell=True,
-            retry=3,
-        )
-        if apply_result is None:
-            log("ERROR", f"Failed to create namespace {namespace}")
-            return False
+    #     # Apply with kubectl
+    #     apply_result = run_command(
+    #         f"{KUBECTL_CMD} apply -f -",
+    #         timeout=10,
+    #         shell=True,
+    #         retry=3,
+    #     )
+    #     if apply_result is None:
+    #         log("ERROR", f"Failed to create namespace {namespace}")
+    #         return False
+
+    namespace_yaml = os.path.join(PROJECT_ROOT, "kubernetes", "base", "namespace.yaml")
+
+    if not os.path.exists(namespace_yaml):
+        log("ERROR", f"Namespace YAML file not found: {namespace_yaml}")
+        return False
+
+    # Apply the namespace YAML
+    apply_result = run_command(
+        [KUBECTL_CMD, "apply", "-f", namespace_yaml],
+        timeout=30,
+        retry=3
+    )
+
+    if apply_result is None:
+        log("ERROR", "Failed to create namespaces from YAML")
+        return False
     
     log("INFO", "Kubernetes namespaces created successfully")
     return True
@@ -2642,7 +2656,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Project directories
-PROJECT_ROOT="$HOME/react-sre-project"
+PROJECT_ROOT="$HOME/Desktop/Mthree-Notes/react-sre-project"
 SCRIPTS_DIR="$PROJECT_ROOT/scripts"
 
 # Function for logging with timestamps

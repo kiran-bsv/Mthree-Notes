@@ -1,0 +1,69 @@
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 30px;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #0066cc;
+  font-weight: bold;
+}
+
+.health-check {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.healthy {
+  color: green;
+  font-weight: bold;
+}
+
+.unhealthy {
+  color: red;
+  font-weight: bold;
+}
+
+.error-message {
+  background-color: #ffdddd;
+  border-left: 6px solid #f44336;
+  padding: 10px;
+  margin: 15px 0;
+}
+
+.error-container {
+  padding: 20px;
+  background-color: #ffdddd;
+  border-left: 6px solid #f44336;
+  margin-bottom: 20px;
+}
+
+.reload-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 4px;
+}

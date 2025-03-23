@@ -1,0 +1,29 @@
+groups:
+- name: react-sre-app
+  rules:
+  - alert: HighErrorRate
+    expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate on {{ $labels.instance }}"
+      description: "Error rate is above 5% for the past 5 minutes: {{ $value }}"
+  
+  - alert: HighResponseTime
+    expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High response time on {{ $labels.instance }}"
+      description: "95th percentile response time is above 1 second for the past 5 minutes: {{ $value }}s"
+  
+  - alert: HighMemoryUsage
+    expr: container_memory_usage_bytes / container_memory_limit_bytes > 0.85
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High memory usage on {{ $labels.instance }}"
+      description: "Memory usage is above 85% for the past 5 minutes: {{ $value * 100 }}%"
