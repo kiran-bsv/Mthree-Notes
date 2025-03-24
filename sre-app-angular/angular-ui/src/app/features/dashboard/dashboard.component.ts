@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
   template: `
     <div class="dashboard-container">
       <header class="dashboard-header">
-        <h1>SRE Dashboard</h1>
+        <h1>SRE Dashboard - 3 </h1>
         <div class="actions">
           <button (click)="refreshMetrics()">Refresh Metrics</button>
           <button (click)="openSettings()">Settings</button>
