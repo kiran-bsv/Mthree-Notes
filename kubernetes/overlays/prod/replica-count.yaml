@@ -1,0 +1,7 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-sre-app
+  namespace: react-sre-app
+spec:
+  replicas: 3

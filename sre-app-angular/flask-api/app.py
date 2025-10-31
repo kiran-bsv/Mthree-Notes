@@ -2,9 +2,10 @@
 import os
 import time
 import logging
+import psutil
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from prometheus_client import Counter, Histogram, generate_latest, REGISTRY, CONTENT_TYPE_LATEST
+from prometheus_client import Counter, Histogram, generate_latest, REGISTRY, CONTENT_TYPE_LATEST, Gauge
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -18,6 +19,13 @@ REQUEST_COUNT = Counter('http_requests_total', 'Total number of requests by endp
                       ['method', 'endpoint', 'status'])
 REQUEST_LATENCY = Histogram('http_request_duration_seconds', 'Request latency in seconds',
                          ['method', 'endpoint'])
+REQUEST_SIZE = Histogram('http_request_size_bytes', 'Size of HTTP requests in bytes', ['method', 'endpoint'])
+RESPONSE_SIZE = Histogram('http_response_size_bytes', 'Size of HTTP responses in bytes', ['method', 'endpoint'])
+ACTIVE_REQUESTS = Gauge('http_active_requests', 'Number of active HTTP requests')
+CPU_USAGE = Gauge('process_cpu_usage_percent', 'CPU usage percentage')
+MEMORY_USAGE = Gauge('process_memory_usage_mb', 'Memory usage in MB')
+
+
 
 # Sample data
 system_metrics = {
@@ -30,6 +38,10 @@ system_metrics = {
     }
 }
 
+def update_system_metrics():
+    CPU_USAGE.set(psutil.cpu_percent())
+    MEMORY_USAGE.set(psutil.virtual_memory().used / (1024 * 1024))
+
 alerts = [
     {'id': 1, 'severity': 'critical', 'message': 'High CPU usage detected', 'timestamp': '2025-03-20T10:30:00Z'},
     {'id': 2, 'severity': 'warning', 'message': 'Memory usage above threshold', 'timestamp': '2025-03-20T11:45:00Z'},
@@ -40,12 +52,18 @@ alerts = [
 @app.before_request
 def before_request():
     request.start_time = time.time()
+    ACTIVE_REQUESTS.inc()
+    content_length = request.content_length or 0
+    update_system_metrics() 
+    REQUEST_SIZE.labels(request.method, request.path).observe(content_length)
 
 @app.after_request
 def after_request(response):
     request_latency = time.time() - request.start_time
     REQUEST_LATENCY.labels(request.method, request.path).observe(request_latency)
     REQUEST_COUNT.labels(request.method, request.path, response.status_code).inc()
+    RESPONSE_SIZE.labels(request.method, request.path).observe(len(response.data))
+    ACTIVE_REQUESTS.dec() 
     return response
 
 @app.route('/metrics')

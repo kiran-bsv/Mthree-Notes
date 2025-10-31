@@ -1320,10 +1320,14 @@ server {
 
     # Forward API requests to the backend service
     location /api/ {
-        proxy_pass http://flask-api-service:5000/api/;
+        # proxy_pass http://flask-api-service:5000/api/;
+        proxy_pass http://flask-api-service.sre-monitoring.svc.cluster.local:5000/api/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
+    # Add resolver for Kubernetes service discovery
+    resolver kube-dns.kube-system.svc.cluster.local valid=10s;
 }
 EOF
 
